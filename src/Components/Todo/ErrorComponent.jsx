@@ -1,0 +1,7 @@
+import React from "react";
+
+function ErrorComponent() {
+    return <div> Error uwu</div>
+}
+
+export default ErrorComponent
