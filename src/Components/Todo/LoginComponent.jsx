@@ -10,8 +10,6 @@ class LoginComponent extends Component {
             hasLoginFailed: false,
             showSuccessMessage: false
         }
-        /*this.handleUsernameChange = this.handleUsernameChange.bind(this);
-        this.handlePasswordChange = this.handlePasswordChange.bind(this);*/
         this.handleChange = this.handleChange.bind(this);
         this.loginClicked = this.loginClicked.bind(this);
     }
@@ -20,31 +18,12 @@ class LoginComponent extends Component {
             [event.target.name]: event.target.value
         })
     }
-    /*
-    handleUsernameChange(event) {
-        console.log("user: " +event.target.value);
-        this.setState({  username: event.target.value })
-    }
-    handlePasswordChange(event) {
-        console.log("pass: "+event.target.value);
-        this.setState({ password: event.target.value })
-    }*/
 
     loginClicked() {
-        /*if (this.state.username === '1' && this.state.password === '1') {
-            AutheticationService.registerSuccesfullLogin(this.state.username, this.state.password)
-
-            this.props.history.push(`/welcome/${this.state.username}`)
-        } else {
-            this.setState({ hasLoginFailed: true })
-            this.setState({ showSuccessMessage: false })
-        }*/
-
-        AutheticationService.executeBasicAuthenticationService(this.state.username, this.state.password)
-
-            .then(() => {
-                AutheticationService.registerSuccesfullLogin(this.state.username, this.state.password)
-                this.props.history.push(`/welcome/${this.state.username}`)
+            AutheticationService.executeJwtAuthenticationService(this.state.username, this.state.password)
+            .then((response) => {
+                AutheticationService.registerSuccesfullLoginForJwt(this.state.username, response.data.token)
+                this.props.history.push(`/welcome`)
             }).catch(
                 () => {
                     this.setState({ hasLoginFailed: true })

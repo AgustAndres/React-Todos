@@ -9,7 +9,7 @@ class TodoComponent extends Component {
         super(props)
         this.state = {
             id: this.props.match.params.id,
-            description: "",
+            description: '',
             targetDate: moment(new Date()).format('YYYY-MM-DD')
         }
         this.onSubmit = this.onSubmit.bind(this)
@@ -17,7 +17,7 @@ class TodoComponent extends Component {
     }
 
     onSubmit(values) {
-        let name = AuthenticationService.getLoggedInUserName;
+        let name = AuthenticationService.getLoggedInUserName()
         let todo = {
             id: this.state.id,
             description: values.description,
@@ -48,7 +48,9 @@ class TodoComponent extends Component {
         if (this.state.id === -1) {
             return
         }
-        TodoDataService.retrieveTodo(AuthenticationService.getLoggedInUserName, this.state.id)
+        let username = AuthenticationService.getLoggedInUserName()
+
+        TodoDataService.retrieveTodo(username, this.state.id)
             .then(response => this.setState({
                 description: response.data.description,
                 targetDate: moment(response.data.targetDate).format('YYYY-MM-DD')
@@ -63,7 +65,7 @@ class TodoComponent extends Component {
             <div>
                 <h1>Todo</h1>
                 <div className="container">
-                    <Formik initialValues={{ description: description, targetDate }}
+                    <Formik initialValues={{ description: description || "", targetDate }}
                         onSubmit={this.onSubmit} validate={this.validate}
                         validateOnChange={false}
                         validateOnBlur={false}
