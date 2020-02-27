@@ -6,7 +6,7 @@ class LogoutComponent extends Component {
             <div>
                 <h1>Logout</h1>
                 <div className="container">
-                    Ty
+                    Thanks!
                 </div>
             </div>
         );

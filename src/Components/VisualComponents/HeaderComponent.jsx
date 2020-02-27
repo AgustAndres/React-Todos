@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AutheticationService from './AuthenticationService.js'
+import AutheticationService from '../Security/AuthenticationService.js'
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 
@@ -10,7 +10,7 @@ class HeaderComponent extends Component {
         return (
             <header>
                 <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-                    <div><Link to="/" className="navbar-brand">TheTodoAPP</Link></div>
+                    <div><Link to="/welcome" className="navbar-brand">TheTodoAPP</Link></div>
                     <ul className="navbar-nav">
                         {isUserLoggedIn && <li><Link className="nav-link" to="/welcome">Home</Link></li>}
                         {isUserLoggedIn && <li><Link className="nav-link" to="/todos">Todos</Link></li>}

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import TodoDataService from '../api/todo/TodoDataService'
-import AuthenticationService from './AuthenticationService'
+import AuthenticationService from '../Security/AuthenticationService'
 
 class TodoComponent extends Component {
     constructor(props) {
@@ -12,11 +12,9 @@ class TodoComponent extends Component {
             description: '',
             targetDate: moment(new Date()).format('YYYY-MM-DD')
         }
-        this.onSubmit = this.onSubmit.bind(this)
-        this.validate = this.validate.bind(this)
     }
 
-    onSubmit(values) {
+    onSubmit = (values) => {
         let name = AuthenticationService.getLoggedInUserName()
         let todo = {
             id: this.state.id,
@@ -30,7 +28,7 @@ class TodoComponent extends Component {
         }
     }
 
-    validate(values) {
+    validate = (values) => {
         let errors = {}
         if (!values.description) {
             errors.description = "Enter a description"
@@ -59,33 +57,44 @@ class TodoComponent extends Component {
     }
     render() {
         let { description, targetDate } = this.state
-        //Same as:
-        //let targetDate = this.state.targetDate let description = this.state.description
         return (
             <div>
                 <h1>Todo</h1>
                 <div className="container">
                     <Formik initialValues={{ description: description || "", targetDate }}
-                        onSubmit={this.onSubmit} validate={this.validate}
+                        onSubmit={this.onSubmit}
+                        validate={this.validate}
                         validateOnChange={false}
                         validateOnBlur={false}
                         enableReinitialize={true}>
-                        {
-                            (props) => (
-                                <Form>
-                                    <ErrorMessage name="description" component="div" className="alert alert-warning" />
-                                    <fieldset className="form-group">
-                                        <label>Description</label>
-                                        <Field className="form-control" type="text" name="description" />
-                                    </fieldset>
-                                    <fieldset className="form-group">
-                                        <ErrorMessage name="targetDate" component="div" className="alert alert-warning" />
-                                        <label>Target date</label>
-                                        <Field className="form-control" type="date" name="targetDate" />
-                                    </fieldset>
-                                    <button type="submit" className="btn btn-success">Save</button>
-                                </Form>
-                            )
+                        {(props) => (
+                            <Form>
+                                <ErrorMessage name="description"
+                                    component="div"
+                                    className="alert alert-warning" />
+
+                                <fieldset className="form-group">
+                                    <label>Description</label>
+                                    <Field className="form-control"
+                                        type="text"
+                                        name="description" />
+                                </fieldset>
+
+                                <fieldset className="form-group">
+                                    <ErrorMessage name="targetDate"
+                                        component="div"
+                                        className="alert alert-warning" />
+                                    <label>Target date</label>
+                                    <Field className="form-control"
+                                        type="date"
+                                        name="targetDate" />
+                                </fieldset>
+
+                                <button type="submit"
+                                    className="btn btn-success">Save
+                                </button>
+                            </Form>
+                        )
                         }
                     </Formik>
                 </div>
